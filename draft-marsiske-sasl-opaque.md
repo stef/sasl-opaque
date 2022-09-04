@@ -70,8 +70,7 @@ SASL OPAQUE is a client initiated mechanism. In total 3 messages are neccessary 
     - a credential request.
 3. the request to be sent to the server is the concatenation of the credential request, the userid and authid:
 
-```
-
+~~~
 struct {
     // credential request
     u8 blinded_hashed_to_curve_password[32];
@@ -81,7 +80,7 @@ struct {
     u8 userid[]; // utf8 null-terminated
     u8 authid[]; // utf8 null-terminated
 } request;
-```
+~~~
 
 ## Server responds to an OPAQUE credential request
 
@@ -90,7 +89,7 @@ struct {
 3. using the realm or the server FQDN server as the server ID and the userid as the user ID the server calls CreateCredentialResponse(), which returns a credential response, and two sensitive values: the shared key and the user authentication code.
 4. the server concatenates the credential response from OPAQUE and the null-terminated utf8 encoded realm and sends this to the client.
 
-```
+~~~
 response {
   // credential_response
   u8 evaluated_message[32];
@@ -104,7 +103,7 @@ response {
   // end of credential response
   u8 realm[]; // utf8 null-terminated.
 }
-```
+~~~
 
 ## Client recovers credentials authenticates server
 
@@ -112,11 +111,11 @@ response {
 2. RecoverCredentials() returns a shared key and the authentication code.
 3. The client sends the authentication code back to the server.
 
-```
+~~~
 client_response {
   u8 auth[64];
 }
-```
+~~~
 
 ## Server authenticates client
 
