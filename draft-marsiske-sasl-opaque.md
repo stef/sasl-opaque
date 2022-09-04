@@ -8,19 +8,19 @@ number:
 date:
 consensus: true
 v: 3
-area: AREA
-workgroup: WG Working Group
+area: "Security"
+workgroup: "Simple Authentication and Security Layer"
 keyword:
  - SASL
  - Authentication
  - OPAQUE
 venue:
-  group: WG
-  type: Working Group
-  mail: WG@example.com
-  arch: https://example.com/WG
-  github: stef/sasl-opaque
-  latest: https://example.com/LATEST
+  group: "Simple Authentication and Security Layer"
+  type: "Working Group"
+  mail: "sasl@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/search/?email_list=sasl"
+  github: "stef/sasl-opaque"
+  latest: "https://stef.github.io/sasl-opaque/draft-marsiske-sasl-opaque.html"
 
 author:
  -
