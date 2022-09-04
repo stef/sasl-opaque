@@ -141,13 +141,15 @@ Table of Contents
    3.  the request to be sent to the server is the concatenation of the
        credential request, the userid and authid:
 
-   ```
-
-   struct { // credential request u8
-   blinded_hashed_to_curve_password[32]; u8
-   ephemeral_user_public_key[32]; u8 user_nonce[32]; // end of
-   credential request u8 userid[]; // utf8 null-terminated u8 authid[];
-   // utf8 null-terminated } request; ```
+   struct {
+       // credential request
+       u8 blinded_hashed_to_curve_password[32];
+       u8 ephemeral_user_public_key[32];
+       u8 user_nonce[32];
+       // end of credential request
+       u8 userid[]; // utf8 null-terminated
+       u8 authid[]; // utf8 null-terminated
+   } request;
 
 4.2.  Server responds to an OPAQUE credential request
 
@@ -166,11 +168,19 @@ Table of Contents
        the null-terminated utf8 encoded realm and sends this to the
        client.
 
-   response { // credential_response u8 evaluated_message[32]; u8
-   masking_nonce[32]; u8 longterm_server_public_key[32]; u8
-   envelope_nonce[32]; u8 envelope_auth_tag[64]; u8 nonceS[32]; u8
-   ephemeral_server_public_key[32]; u8 auth[64]; // end of credential
-   response u8 realm[]; // utf8 null-terminated. }
+   response {
+     // credential_response
+     u8 evaluated_message[32];
+     u8 masking_nonce[32];
+     u8 longterm_server_public_key[32];
+     u8 envelope_nonce[32];
+     u8 envelope_auth_tag[64];
+     u8 nonceS[32];
+     u8 ephemeral_server_public_key[32];
+     u8 auth[64];
+     // end of credential response
+     u8 realm[]; // utf8 null-terminated.
+   }
 
 4.3.  Client recovers credentials authenticates server
 
@@ -183,7 +193,9 @@ Table of Contents
 
    3.  The client sends the authentication code back to the server.
 
-   client_response { u8 auth[64]; }
+   client_response {
+     u8 auth[64];
+   }
 
 4.4.  Server authenticates client
 
