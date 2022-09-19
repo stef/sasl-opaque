@@ -4,8 +4,8 @@
 
 Simple Authentication and Security Layer                     S. Marsiske
 Internet-Draft                                                     ctrlc
-Intended status: Informational                          4 September 2022
-Expires: 8 March 2023
+Intended status: Informational                         19 September 2022
+Expires: 23 March 2023
 
 
                          OPAQUE SASL Mechanism
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 March 2023.
+   This Internet-Draft will expire on 23 March 2023.
 
 Copyright Notice
 
@@ -65,10 +65,7 @@ Copyright Notice
    Provisions Relating to IETF Documents (https://trustee.ietf.org/
    license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
-   and restrictions with respect to this document.  Code Components
-   extracted from this document must include Revised BSD License text as
-   described in Section 4.e of the Trust Legal Provisions and are
-   provided without warranty as described in the Revised BSD License.
+   and restrictions with respect to this document.
 
 Table of Contents
 
@@ -101,9 +98,9 @@ Table of Contents
    OPAQUE is an efficient, versatile, modern cryptographic primitive
    with strong security guarantees that goes beyond what existing SASL
    mechanisms provide.  One of the most important features is that the
-   users password or anything derived from it is never exposed to the
-   server.  Another important security property is that replay attacks
-   are also not possible.
+   user's password or anything derived from it is never exposed to the
+   server.  Also another important security property is that replay
+   attacks are also not possible.
 
 3.  Notation
 
@@ -121,19 +118,19 @@ Table of Contents
    The messages closely follow the specification of OPAQUE AKE
    messsages([OPAQUE] AKE messages section).
 
-   SASL OPAQUE is a client initiated mechanism.  In total 3 messages are
+   SASL OPAQUE is a client-initiated mechanism.  In total 3 messages are
    neccessary to authenticate the client to the server.
 
 4.1.  Client initiates an OPAQUE protocol execution
 
    1.  the client queries the authid, the userid and the password.
-       Neither the authid nor the userid can be longer that 64KB in
-       size.
+       Neither the authid nor the userid can be longer that 65535 bytes
+       in size.
 
    2.  using the password the client calls CreateCredentialRequest()
        this returns
 
-       *  a sensitive context which the client needs to hold onto for
+       *  a sensitive context which the client needs to hold on to for
           the next step of the protocol
 
        *  a credential request.
@@ -168,7 +165,7 @@ Table of Contents
        the null-terminated utf8 encoded realm and sends this to the
        client.
 
-   response {
+   struct {
      // credential_response
      u8 evaluated_message[32];
      u8 masking_nonce[32];
@@ -180,12 +177,12 @@ Table of Contents
      u8 auth[64];
      // end of credential response
      u8 realm[]; // utf8 null-terminated.
-   }
+   } response;
 
 4.3.  Client recovers credentials authenticates server
 
    1.  The client uses the userid and the realm as the user and the
-       server IDs, the sensitive context fromt the first step and calls
+       server IDs, the sensitive context from the first step and calls
        RecoverCredentials().
 
    2.  RecoverCredentials() returns a shared key and the authentication
@@ -193,17 +190,17 @@ Table of Contents
 
    3.  The client sends the authentication code back to the server.
 
-   client_response {
+   struct {
      u8 auth[64];
-   }
+   } client_auth_token;
 
 4.4.  Server authenticates client
 
    1.  The Server uses the authentication token calculated during the
        creation of the credential response, and the authentication token
        received from the client and calls UserAuth() with them as
-       parameters.  If this succeeds, the server signals successful
-       authentication, otherwise it signals authentication failed.
+       parameters.  If this succeeds, the server considers the channel
+       authenticated, otherwise it signals authentication failed.
 
 5.  Security Considerations
 
