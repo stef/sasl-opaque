@@ -48,7 +48,7 @@ This document describes the OPAQUE{{OPAQUE}} protocol SASL mechanism. OPAQUE is 
 
 # Introduction
 
-OPAQUE is an efficient, versatile, modern cryptographic primitive with strong security guarantees that goes beyond what existing SASL mechanisms provide. One of the most important features is that the user's password or anything derived from it is never exposed to the server. Also another important security property is that replay attacks are also not possible.
+OPAQUE is an efficient, versatile, modern cryptographic primitive with strong security guarantees that goes beyond what existing SASL mechanisms provide. One of the most important features is that the user's password or anything derived from it is neither exposed to the server nor in the protocol.  Another important security property is that replay attacks are also not possible.  OPAQUE can be used can be used over plaintext channels, although the lack of binding between authentication and the rest of the protocol usually form an independent reason to not use that.
 
 # Notation {#notation}
 
@@ -64,11 +64,11 @@ SASL OPAQUE is a client-initiated mechanism. In total 3 messages are neccessary 
 
 ## Client initiates an OPAQUE protocol execution
 
-1. the client queries the authid, the userid and the password. Neither the authid nor the userid can be longer that 65535 bytes in size.
-2. using the password the client calls CreateCredentialRequest() this returns
+1. the client queries the authid, the userid and the password. Neither the authid nor the userid can be longer that 65535 bytes in size, TODO:including a null termination character.
+2. using the password, the client calls CreateCredentialRequest(), which returns
     - a sensitive context which the client needs to hold on to for the next step of the protocol
     - a credential request.
-3. the request to be sent to the server is the concatenation of the credential request, the userid and authid:
+3. the client-first token sent to the server is the concatenation of the credential request, the userid and authid:
 
 ~~~
 struct {
