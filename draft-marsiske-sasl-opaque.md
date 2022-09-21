@@ -48,7 +48,7 @@ This document describes the OPAQUE{{OPAQUE}} protocol SASL mechanism. OPAQUE is 
 
 # Introduction
 
-OPAQUE is an efficient, versatile, modern cryptographic primitive with strong security guarantees that goes beyond what existing SASL mechanisms provide. One of the most important features is that the user's password or anything derived from it is neither exposed to the server nor in the protocol.  Another important security property is that replay attacks are also not possible.  OPAQUE can be used can be used over plaintext channels, although the lack of binding between authentication and the rest of the protocol usually form an independent reason to not use that.
+OPAQUE is an efficient, versatile, modern cryptographic primitive with strong security guarantees that goes beyond what existing SASL mechanisms provide. One of the most important features is that the user's password or anything derived from it is neither exposed to the server nor in the protocol.  Another important security property is that replay attacks are not possible.  OPAQUE can be used can be used over plaintext channels, although the lack of binding between authentication and the rest of the protocol usually form an independent reason to not use that.
 
 # Notation {#notation}
 
