@@ -58,7 +58,9 @@ All protocol messages and structures defined in this document use the syntax fro
 
 This specification instantiates OPAQUE-3DH with the following configuration tuple ({{OPAQUE}} configurations section): (OPRF(ristretto255, SHA-512), HKDF-SHA-512, HMAC-SHA-512, SHA-512, argon2i(67108864, 2), ristretto255). The sizes of all message components are set accordingly.
 
-The messages closely follow the specification of OPAQUE AKE messsages({{OPAQUE}} AKE messages section).
+The messages closely follow the specification of OPAQUE AKE messsages({{OPAQUE}} AKE messages section), and any field names and calls not defined herein are clarified in that specification.
+
+TODO: Are you going to track changes in the document in the SASL mechanism?
 
 SASL OPAQUE is a client-initiated mechanism. In total 3 messages are neccessary to authenticate the client to the server.
 
