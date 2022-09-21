@@ -89,7 +89,7 @@ struct {
 1. the server receives the request from the client.
 2. based on the authid and userid the server fetches the user record from its storage backend
 3. using the realm or the server FQDN server as the server ID and the userid as the user ID the server calls CreateCredentialResponse(), which returns a credential response, and two sensitive values: the shared key and the user authentication code.
-4. the server concatenates the credential response from OPAQUE and the null-terminated utf8 encoded realm and sends this to the client.
+4. the server forms its token by concatenating the credential response from OPAQUE and the null-terminated utf8 encoded realm and sends this to the client.
 
 ~~~
 struct {
@@ -111,7 +111,7 @@ struct {
 
 1. The client uses the userid and the realm as the user and the server IDs, the sensitive context from the first step and calls RecoverCredentials().
 2. RecoverCredentials() returns a shared key and the authentication code.
-3. The client sends the authentication code back to the server.
+3. The client sends the authentication token back to the server.
 
 ~~~
 struct {
