@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-09-22T01:01:40.204359+00:00",
+  "timestamp": "2022-09-25T01:02:24.221449+00:00",
   "repo": "stef/sasl-opaque",
   "labels": [
     {
@@ -132,7 +132,7 @@
       "labels": [],
       "body": "I tried to expand the Introduction a little.\r\n\r\nFound a nit in whether 65535 sizes include the terminating null character.\r\n\r\nA few language suggestions.\r\n\r\nI think this is clear enough, though I thought it useful to indicate a note that undefined field names and calls are defined in the I-D.\r\n\r\nWhen the I-D changes structures, what will that mean to your spec?  Should it follow, will your spec be updated, ...?\r\n\r\nThe security section could perhaps reference the one in the I-D, to avoid copying that.  The security concerns addressed are good to name, perhaps, as the mech is not trivial.\r\n\r\nAlmost done I think, to consider filing for the mechname at https://www.iana.org/form/protocol-assignment -- there could be some feedback, but at least the data structures and their definitions are clear.",
       "createdAt": "2022-09-21T07:56:50Z",
-      "updatedAt": "2022-09-21T08:20:07Z",
+      "updatedAt": "2022-09-22T07:52:48Z",
       "baseRepository": "stef/sasl-opaque",
       "baseRefName": "main",
       "baseRefOid": "fae6190d86c3c6f95402e6fc55e2b7a66a990749",
@@ -164,6 +164,13 @@
           "body": "Something that *is* still missing is the ability of Channel Binding, that is, incorporating cryptographic information from the context into the mechanism as a seed.  You indicated that the mechanism did not support that, right?  Would it be an idea to incorporate the channel somehow into the userid?\r\n\r\nA variant that implements Channel Binding would have a `-PLUS` at the end of the name.",
           "createdAt": "2022-09-21T08:18:35Z",
           "updatedAt": "2022-09-21T08:18:35Z"
+        },
+        {
+          "author": "vanrein",
+          "authorAssociation": "NONE",
+          "body": "One concern for the Security Considerations would be whether it is Quantum Proof.  I suspect it is?\r\n\r\n  * the OPRF is blinded with a key pair, but does not need to publish that public key, so the password cannot be learnt from the wire transfer\r\n  * if the rest is like SRP, it will mix unshared entropy with a key exchange, and that too protects from Quantum Computing\r\n  * the only weak spot I could imagine is when the verifier is being shared (I'm using the SRP term)",
+          "createdAt": "2022-09-22T07:52:47Z",
+          "updatedAt": "2022-09-22T07:52:47Z"
         }
       ],
       "reviews": []
