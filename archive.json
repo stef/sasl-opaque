@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-09-25T01:02:24.221449+00:00",
+  "timestamp": "2022-09-27T01:06:54.976331+00:00",
   "repo": "stef/sasl-opaque",
   "labels": [
     {
@@ -132,7 +132,7 @@
       "labels": [],
       "body": "I tried to expand the Introduction a little.\r\n\r\nFound a nit in whether 65535 sizes include the terminating null character.\r\n\r\nA few language suggestions.\r\n\r\nI think this is clear enough, though I thought it useful to indicate a note that undefined field names and calls are defined in the I-D.\r\n\r\nWhen the I-D changes structures, what will that mean to your spec?  Should it follow, will your spec be updated, ...?\r\n\r\nThe security section could perhaps reference the one in the I-D, to avoid copying that.  The security concerns addressed are good to name, perhaps, as the mech is not trivial.\r\n\r\nAlmost done I think, to consider filing for the mechname at https://www.iana.org/form/protocol-assignment -- there could be some feedback, but at least the data structures and their definitions are clear.",
       "createdAt": "2022-09-21T07:56:50Z",
-      "updatedAt": "2022-09-22T07:52:48Z",
+      "updatedAt": "2022-09-26T07:38:43Z",
       "baseRepository": "stef/sasl-opaque",
       "baseRefName": "main",
       "baseRefOid": "fae6190d86c3c6f95402e6fc55e2b7a66a990749",
@@ -171,6 +171,20 @@
           "body": "One concern for the Security Considerations would be whether it is Quantum Proof.  I suspect it is?\r\n\r\n  * the OPRF is blinded with a key pair, but does not need to publish that public key, so the password cannot be learnt from the wire transfer\r\n  * if the rest is like SRP, it will mix unshared entropy with a key exchange, and that too protects from Quantum Computing\r\n  * the only weak spot I could imagine is when the verifier is being shared (I'm using the SRP term)",
           "createdAt": "2022-09-22T07:52:47Z",
           "updatedAt": "2022-09-22T07:52:47Z"
+        },
+        {
+          "author": "stef",
+          "authorAssociation": "OWNER",
+          "body": "> When the I-D changes structures, what will that mean to your spec? Should it follow, will your spec be updated, ...?\r\n\r\nyes, but the spec is now for more than 2 years in draft status, and although there were lots of changes, it seems to be quite stable now. but yeah, if it changes, then also this spec should change. so i guess we have to wait until the opaque draft gets final and then we can also finalize this draft. i hope that is not too much work.\r\n\r\n> The security section could perhaps reference the one in the I-D, to avoid copying that. The security concerns addressed are good to name, perhaps, as the mech is not trivial.\r\n\r\nyes, this makes sense. i'll add a section for that.\r\n\r\n> Something that is still missing is the ability of Channel Binding, that is, incorporating cryptographic information from the context into the mechanism as a seed. You indicated that the mechanism did not support that, right? Would it be an idea to incorporate the channel somehow into the userid?\r\n\r\nnah, sadly that doesn't work, it would make the recovery of the credentials impossible. we could however add the channel binding info to the hmac input that calculates the authentication token.\r\n\r\n> One concern for the Security Considerations would be whether it is Quantum Proof. I suspect it is?\r\n\r\nnope, sadly this is still an area of research. but for authentication quantum proof is currently not a big issue.\r\n\r\n>    the OPRF is blinded with a key pair, but does not need to publish that public key, so the password cannot be learnt from the wire transfer\r\n\r\nit's not really a key pair, it's just a scalar r and its modular inverse 1/r. both should be kept secret.\r\n\r\n>    if the rest is like SRP, it will mix unshared entropy with a key exchange, and that too protects from Quantum Computing the only weak spot I could imagine is when the verifier is being shared (I'm using the SRP term)\r\n\r\nif the verifier is the authentication token `hmac(1, sharedsecret)` then even that is not really an issue, since they are unique for each connection and dependent on state and ephemeral keys held by both peers.",
+          "createdAt": "2022-09-25T21:24:47Z",
+          "updatedAt": "2022-09-25T21:24:47Z"
+        },
+        {
+          "author": "vanrein",
+          "authorAssociation": "NONE",
+          "body": "> > Something that is still missing is the ability of Channel Binding, that is, incorporating cryptographic information from the context into the mechanism as a seed. You indicated that the mechanism did not support that, right? Would it be an idea to incorporate the channel somehow into the userid?\n> \n> nah, sadly that doesn't work, it would make the recovery of the credentials impossible.\n\nYes, of course.\n\n> we could however add the channel binding info to the hmac input that calculates the authentication token.\n\nThis is the HMAC that allows the client to check the server identity, right?\n\nThat'd be perfect.  The server must not be able to relay its traffic to a backend, say an IMAP server, and the use of channel binding makes that impossible, because the IMAP server either uses its own or none.\n\nUm, the reason for doing this is to avoid authenticating to the wrong party, so I am wondering if the HMAC is soon enough?  There is a 3rd message from client to server, that is the ultimate authentication step of the client to the server, right?\n\nThis is useful stuff for the Security Considerations :)\n\n> > One concern for the Security Considerations would be whether it is Quantum Proof. I suspect it is?\n> \n> nope, sadly this is still an area of research. but for authentication quantum proof is currently not a big issue.\n\nIT is *currently* not an issue, indeed.\n\n> >    the OPRF is blinded with a key pair, but does not need to publish that public key, so the password cannot be learnt from the wire transfer\n> \n> it's not really a key pair, it's just a scalar r and its modular inverse 1/r. both should be kept secret.\n\nAh.  Good enough of course, any reversable pad will do, given enough entropy.\n",
+          "createdAt": "2022-09-26T07:38:43Z",
+          "updatedAt": "2022-09-26T07:38:43Z"
         }
       ],
       "reviews": []
