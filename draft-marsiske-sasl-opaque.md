@@ -48,7 +48,7 @@ This document describes the OPAQUE{{OPAQUE}} protocol SASL mechanism. OPAQUE is 
 
 # Introduction
 
-OPAQUE is an efficient, versatile, modern cryptographic primitive with strong security guarantees that goes beyond what existing SASL mechanisms provide. One of the most important features is that the user's password or anything derived from it is never exposed to the server. Also another important security property is that replay attacks are also not possible.
+OPAQUE is an efficient, versatile, modern cryptographic primitive with strong security guarantees that goes beyond what existing SASL mechanisms provide. One of the most important features is that the user's password or anything derived from it is neither exposed to the server nor in the protocol.  Another important security property is that replay attacks are not possible.  OPAQUE can be used can be used over plaintext channels, although the lack of binding between authentication and the rest of the protocol usually form an independent reason to not use that.
 
 # Notation {#notation}
 
@@ -58,17 +58,19 @@ All protocol messages and structures defined in this document use the syntax fro
 
 This specification instantiates OPAQUE-3DH with the following configuration tuple ({{OPAQUE}} configurations section): (OPRF(ristretto255, SHA-512), HKDF-SHA-512, HMAC-SHA-512, SHA-512, argon2i(67108864, 2), ristretto255). The sizes of all message components are set accordingly.
 
-The messages closely follow the specification of OPAQUE AKE messsages({{OPAQUE}} AKE messages section).
+The messages closely follow the specification of OPAQUE AKE messsages({{OPAQUE}} AKE messages section), and any field names and calls not defined herein are clarified in that specification.
+
+TODO: Are you going to track changes in the document in the SASL mechanism?
 
 SASL OPAQUE is a client-initiated mechanism. In total 3 messages are neccessary to authenticate the client to the server.
 
 ## Client initiates an OPAQUE protocol execution
 
-1. the client queries the authid, the userid and the password. Neither the authid nor the userid can be longer that 65535 bytes in size.
-2. using the password the client calls CreateCredentialRequest() this returns
+1. the client queries the authid, the userid and the password. Neither the authid nor the userid can be longer that 65535 bytes in size, TODO:including a null termination character.
+2. using the password, the client calls CreateCredentialRequest(), which returns
     - a sensitive context which the client needs to hold on to for the next step of the protocol
     - a credential request.
-3. the request to be sent to the server is the concatenation of the credential request, the userid and authid:
+3. the client-first token sent to the server is the concatenation of the credential request, the userid and authid:
 
 ~~~
 struct {
@@ -87,7 +89,7 @@ struct {
 1. the server receives the request from the client.
 2. based on the authid and userid the server fetches the user record from its storage backend
 3. using the realm or the server FQDN server as the server ID and the userid as the user ID the server calls CreateCredentialResponse(), which returns a credential response, and two sensitive values: the shared key and the user authentication code.
-4. the server concatenates the credential response from OPAQUE and the null-terminated utf8 encoded realm and sends this to the client.
+4. the server forms its token by concatenating the credential response from OPAQUE and the null-terminated utf8 encoded realm and sends this to the client.
 
 ~~~
 struct {
@@ -109,7 +111,7 @@ struct {
 
 1. The client uses the userid and the realm as the user and the server IDs, the sensitive context from the first step and calls RecoverCredentials().
 2. RecoverCredentials() returns a shared key and the authentication code.
-3. The client sends the authentication code back to the server.
+3. The client sends the authentication token back to the server.
 
 ~~~
 struct {
