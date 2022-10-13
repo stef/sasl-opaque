@@ -1041,7 +1041,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Marsiske</td>
-<td class="center">Expires 15 April 2023</td>
+<td class="center">Expires 16 April 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1054,12 +1054,12 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-marsiske-sasl-opaque-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-10-12" class="published">12 October 2022</time>
+<time datetime="2022-10-13" class="published">13 October 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-04-15">15 April 2023</time></dd>
+<dd class="expires"><time datetime="2023-04-16">16 April 2023</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1109,7 +1109,7 @@ svg :is([stroke="fill"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 April 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 April 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1205,6 +1205,7 @@ appear in all capitals, as shown here.<a href="#section-1-1" class="pilcrow">¶<
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-2-1">OPAQUE is an efficient, versatile, modern cryptographic primitive with strong security guarantees that goes beyond what existing SASL mechanisms provide. One of the most important features is that the user's password or anything derived from it is neither exposed to the server nor in the protocol.  Another important security property is that replay attacks are not possible.  OPAQUE can be used can be used over plaintext channels, although the lack of binding between authentication and the rest of the protocol usually form an independent reason to not use that.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">The closest SASL authentication mechanism to OPAQUE is SRP <span>[<a href="#RFC2945" class="cite xref">RFC2945</a>]</span>, which is vulnerable to pre-computation attacks, lacks proof of security, and is less efficient than OPAQUE. Moreover, SRP requires a ring as it mixes addition and multiplication operations, and thus does not work over standard elliptic curves. OPAQUE is therefore a suitable replacement for applications that use SRP.<a href="#section-2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="notation">
@@ -1222,8 +1223,7 @@ appear in all capitals, as shown here.<a href="#section-1-1" class="pilcrow">¶<
       </h2>
 <p id="section-4-1">This specification instantiates OPAQUE-3DH with the following configuration tuple (<span>[<a href="#OPAQUE" class="cite xref">OPAQUE</a>]</span> configurations section): (OPRF(ristretto255, SHA-512), HKDF-SHA-512, HMAC-SHA-512, SHA-512, argon2i(67108864, 2), ristretto255). The sizes of all message components are set accordingly.<a href="#section-4-1" class="pilcrow">¶</a></p>
 <p id="section-4-2">The messages closely follow the specification of OPAQUE AKE messsages(<span>[<a href="#OPAQUE" class="cite xref">OPAQUE</a>]</span> AKE messages section), and any field names and calls not defined herein are clarified in that specification.<a href="#section-4-2" class="pilcrow">¶</a></p>
-<p id="section-4-3">TODO: Are you going to track changes in the document in the SASL mechanism?<a href="#section-4-3" class="pilcrow">¶</a></p>
-<p id="section-4-4">SASL OPAQUE is a client-initiated mechanism. In total 3 messages are neccessary to authenticate the client to the server.<a href="#section-4-4" class="pilcrow">¶</a></p>
+<p id="section-4-3">SASL OPAQUE is a client-initiated mechanism. In total 3 messages are necessary to authenticate the client to the server.<a href="#section-4-3" class="pilcrow">¶</a></p>
 <div id="client-initiates-an-opaque-protocol-execution">
 <section id="section-4.1">
         <h3 id="name-client-initiates-an-opaque-">
@@ -1267,7 +1267,7 @@ struct {
 <ol start="1" type="1" class="normal type-1" id="section-4.2-1">
 <li id="section-4.2-1.1">the server receives the request from the client.<a href="#section-4.2-1.1" class="pilcrow">¶</a>
 </li>
-          <li id="section-4.2-1.2">based on the authid and userid the server fetches the user record from its storage backend<a href="#section-4.2-1.2" class="pilcrow">¶</a>
+          <li id="section-4.2-1.2">based on the authid and userid the server fetches the user record from its storage back-end<a href="#section-4.2-1.2" class="pilcrow">¶</a>
 </li>
           <li id="section-4.2-1.3">using the realm or the server FQDN server as the server ID and the userid as the user ID the server calls CreateCredentialResponse(), which returns a credential response, and two sensitive values: the shared key and the user authentication code.<a href="#section-4.2-1.3" class="pilcrow">¶</a>
 </li>
@@ -1333,7 +1333,70 @@ struct {
       <h2 id="name-security-considerations">
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-5-1">TODO Security<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-1">OPAQUE guarantees that the users passwords are never exposed to the
+server (see registration caveat below). This protects against the
+users passwords being logged as plaintext, or other exposure when TLS
+may fail, including PKI attacks, certificate mishandling, termination
+outside the security perimeter, visibility to TLS-terminating
+intermediaries.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">OPAQUE also provides an optional enumeration mitigation by responding
+with a fake "response" to requests for non-existing clients. This is
+something that the server implementation should support. For more
+details on this see the "preventing-client-enumeration" section of the
+OPAQUE<span>[<a href="#OPAQUE" class="cite xref">OPAQUE</a>]</span> RFC.<a href="#section-5-2" class="pilcrow">¶</a></p>
+<p id="section-5-3">The security considerations of the OPAQUE<span>[<a href="#OPAQUE" class="cite xref">OPAQUE</a>]</span> RFC also apply to
+the SASL mechanism. Additional security considerations are:<a href="#section-5-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5-4">
+<li id="section-5-4.1">This SASL mechanism specification does not define channel binding,
+however it is possible to achieve this by adding the channel
+binding information to the user and server name. The details of
+this depend strongly on the channel being bound. The OPAQUE RFC
+notes this:
+&gt; In principle, identities may change across different sessions as
+&gt; long as there is a policy that can establish if the identity is
+&gt; acceptable or not to the peer.<a href="#section-5-4.1" class="pilcrow">¶</a>
+</li>
+        <li id="section-5-4.2">This specification does not define a secure layer protocol, despite
+OPAQUE lends itself perfectly to establish the keying of such. It
+is debatable what kind of SL could be initialized from OPAQUE, it
+could be a simple XChacha20/Poly1305<span>[<a href="#XCHACHA20" class="cite xref">XCHACHA20</a>]</span> channel, some form of
+Double-Ratchet<span>[<a href="#_3DH" class="cite xref">_3DH</a>]</span>, or even using TLS <span>[<a href="#TLSv1.3" class="cite xref">TLSv1.3</a>]</span>
+PSK_KE mode all these variants have their pros and cons.<a href="#section-5-4.2" class="pilcrow">¶</a>
+</li>
+        <li id="section-5-4.3">The OPAQUE RFC only specifies the 4 step
+password-privacy-protecting registration procedure, which does not
+apply to how SASL creates new users. With SASL new users are
+usually added on the server by using a tool like saslpasswd2 which
+creates the accounts for all SASL supported mechanisms, and thus
+the users password is exposed to the server. On one hand this
+violates one of OPAQUEs strengths, never exposing the password to
+the server, but on the other hand it enables the server to enforce
+password quality rules. It is warmly recommended for implementers
+to provide means to create new users by applying the 4 step
+procedure also specified by the OPAQUE RFC.<a href="#section-5-4.3" class="pilcrow">¶</a>
+</li>
+        <li id="section-5-4.4">
+          <p id="section-5-4.4.1">Key-Stretching Functions (such as Argon2 <span>[<a href="#ARGON2" class="cite xref">ARGON2</a>]</span>,
+scrypt <span>[<a href="#SCRYPT" class="cite xref">SCRYPT</a>]</span>, and PBKDF2 <span>[<a href="#PBKDF2" class="cite xref">PBKDF2</a>]</span>) are
+only executed and used on the client. This has a couple consequences:<a href="#section-5-4.4.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5-4.4.2.1">it eliminates a resource-exhaustion DoS attack vector against the
+server.<a href="#section-5-4.4.2.1" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-5-4.4.2.2">implementers must consider low-resource clients which might be
+overwhelmed by overly resource-intensive KSF configurations.<a href="#section-5-4.4.2.2" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-5-4.4.2.3">clients can choose their KSF independently of the server, the
+only important detail is that all clients must use the same KSF
+config for the same user record. Client KSF configuration might
+be stored at client side in a configuration, although this
+eliminates one of the benefits of OPAQUE of not needing any info
+besides the user password on the client, but this might be
+unimportant for a lot of applications.<a href="#section-5-4.4.2.3" class="pilcrow">¶</a>
+</li>
+          </ul>
+</li>
+      </ol>
 </section>
 </div>
 <div id="iana-considerations">
@@ -1368,13 +1431,41 @@ struct {
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="ARGON2">[ARGON2]</dt>
+        <dd>
+<span class="refAuthor">Biryukov, A.</span>, <span class="refAuthor">Dinu, D.</span>, <span class="refAuthor">Khovratovich, D.</span>, and <span class="refAuthor">S. Josefsson</span>, <span class="refTitle">"Argon2 Memory-Hard Function for Password Hashing and Proof-of-Work Applications"</span>, <span class="seriesInfo">RFC 9106</span>, <span class="seriesInfo">DOI 10.17487/RFC9106</span>, <time datetime="2021-09" class="refDate">September 2021</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9106">https://www.rfc-editor.org/rfc/rfc9106</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="OPAQUE">[OPAQUE]</dt>
         <dd>
 <span class="refTitle">"The OPAQUE Asymmetric PAKE Protocol"</span>, <span>n.d.</span>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-opaque">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-opaque</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="PBKDF2">[PBKDF2]</dt>
+        <dd>
+<span class="refAuthor">Kaliski, B.</span>, <span class="refTitle">"PKCS #5: Password-Based Cryptography Specification Version 2.0"</span>, <span class="seriesInfo">RFC 2898</span>, <span class="seriesInfo">DOI 10.17487/RFC2898</span>, <time datetime="2000-09" class="refDate">September 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2898">https://www.rfc-editor.org/rfc/rfc2898</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2945">[RFC2945]</dt>
+        <dd>
+<span class="refAuthor">Wu, T.</span>, <span class="refTitle">"The SRP Authentication and Key Exchange System"</span>, <span class="seriesInfo">RFC 2945</span>, <span class="seriesInfo">DOI 10.17487/RFC2945</span>, <time datetime="2000-09" class="refDate">September 2000</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2945">https://www.rfc-editor.org/rfc/rfc2945</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC8446">[RFC8446]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8446">https://www.rfc-editor.org/rfc/rfc8446</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SCRYPT">[SCRYPT]</dt>
+        <dd>
+<span class="refAuthor">Percival, C.</span> and <span class="refAuthor">S. Josefsson</span>, <span class="refTitle">"The scrypt Password-Based Key Derivation Function"</span>, <span class="seriesInfo">RFC 7914</span>, <span class="seriesInfo">DOI 10.17487/RFC7914</span>, <time datetime="2016-08" class="refDate">August 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7914">https://www.rfc-editor.org/rfc/rfc7914</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="TLSv1.3">[TLSv1.3]</dt>
+        <dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8446">https://www.rfc-editor.org/rfc/rfc8446</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="XCHACHA20">[XCHACHA20]</dt>
+        <dd>
+<span class="refTitle">"XChaCha: eXtended-nonce ChaCha and AEAD XChaCha20 Poly1305"</span>, <span>n.d.</span>, <span>&lt;<a href="https://datatracker.ietf.org/doc/draft-irtf-cfrg-xchacha/03/">https://datatracker.ietf.org/doc/draft-irtf-cfrg-xchacha/03/</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="_3DH">[_3DH]</dt>
+      <dd>
+<span class="refTitle">"The Double Ratchet Algorithm"</span>, <span>n.d.</span>, <span>&lt;<a href="https://signal.org/docs/specifications/doubleratchet/">https://signal.org/docs/specifications/doubleratchet/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
