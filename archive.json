@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-10-11T01:02:24.256689+00:00",
+  "timestamp": "2022-10-13T01:08:06.878138+00:00",
   "repo": "stef/sasl-opaque",
   "labels": [
     {
@@ -63,7 +63,7 @@
       "labels": [],
       "body": "- Mundane feedback, when asked I can ignore things too\r\n- This is basically textual + SASL feedback\r\n- Still need to study the Normative reference\r\n- Curious about the actual crypto",
       "createdAt": "2022-09-05T14:32:02Z",
-      "updatedAt": "2022-09-21T07:45:09Z",
+      "updatedAt": "2022-10-11T11:25:53Z",
       "baseRepository": "stef/sasl-opaque",
       "baseRefName": "main",
       "baseRefOid": "3659ed8fbf6cccec1d547f7ae6aef89e948ab0b0",
@@ -98,7 +98,7 @@
         },
         {
           "author": "vanrein",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "\"pushed a version\" is indeed what I got, but I still don't know *where it is*.  I do see a merge conflict in this thread though.\r\n\r\nI'm happy to look at another concrete version, but maybe you can post it to your repo?  It's yours after all :) and that's where I've been polling last week.",
           "createdAt": "2022-09-19T13:17:08Z",
           "updatedAt": "2022-09-19T13:17:08Z"
@@ -112,10 +112,24 @@
         },
         {
           "author": "vanrein",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "thanks for pushing!",
           "createdAt": "2022-09-21T07:45:09Z",
           "updatedAt": "2022-09-21T07:45:09Z"
+        },
+        {
+          "author": "vanrein",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Hi Stef,\n\n> pushed a version with all trivially fixed comments adopted.\n\nI still see the head being 3659ed8fbf6cccec1d547f7ae6aef89e948ab0b0 that I\nresponded to.  Can you check that you really pushed to\nhttps://github.com/stef/sasl-opaque branch main or tell me where else to look?\nThe gh-pages branch also seems to be based on 3659...\n\n-Rick\n\n",
+          "createdAt": "2022-10-11T08:35:10Z",
+          "updatedAt": "2022-10-11T08:35:10Z"
+        },
+        {
+          "author": "stef",
+          "authorAssociation": "OWNER",
+          "body": "weird there is this commit: https://github.com/stef/sasl-opaque/commit/fae6190d86c3c6f95402e6fc55e2b7a66a990749 which is head of master\r\n",
+          "createdAt": "2022-10-11T11:25:53Z",
+          "updatedAt": "2022-10-11T11:25:53Z"
         }
       ],
       "reviews": []
@@ -125,49 +139,51 @@
       "id": "PR_kwDOH7-iUM4_VEUS",
       "title": "Rvr2",
       "url": "https://github.com/stef/sasl-opaque/pull/2",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "vanrein",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "I tried to expand the Introduction a little.\r\n\r\nFound a nit in whether 65535 sizes include the terminating null character.\r\n\r\nA few language suggestions.\r\n\r\nI think this is clear enough, though I thought it useful to indicate a note that undefined field names and calls are defined in the I-D.\r\n\r\nWhen the I-D changes structures, what will that mean to your spec?  Should it follow, will your spec be updated, ...?\r\n\r\nThe security section could perhaps reference the one in the I-D, to avoid copying that.  The security concerns addressed are good to name, perhaps, as the mech is not trivial.\r\n\r\nAlmost done I think, to consider filing for the mechname at https://www.iana.org/form/protocol-assignment -- there could be some feedback, but at least the data structures and their definitions are clear.",
       "createdAt": "2022-09-21T07:56:50Z",
-      "updatedAt": "2022-09-26T07:38:43Z",
+      "updatedAt": "2022-10-12T21:46:05Z",
       "baseRepository": "stef/sasl-opaque",
       "baseRefName": "main",
       "baseRefOid": "fae6190d86c3c6f95402e6fc55e2b7a66a990749",
       "headRepository": "arpa2/sasl-opaque",
       "headRefName": "rvr2",
       "headRefOid": "52bfe0c27df16d20a81eb8ce65016d7ed2090960",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-10-12T21:32:17Z",
+      "mergedAt": "2022-10-12T21:32:17Z",
+      "mergedBy": "stef",
+      "mergeCommit": {
+        "oid": "3c03810261b2cf188dbfa9fa2410e5ec4cada375"
+      },
       "comments": [
         {
           "author": "vanrein",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "FWIW, I am going to look into ways of extracting key material from SASL, it might be useful to simply use something like HKDF to facilitate something similar to the TLS-Exporter mechanism.  That way, you would not have to define a mode or anything.  This is not what SASL usually does though, it generally offers the whole thing (in one specific choice).",
           "createdAt": "2022-09-21T07:59:57Z",
           "updatedAt": "2022-09-21T07:59:57Z"
         },
         {
           "author": "vanrein",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> FWIW, I am going to look into ways of extracting key material from SASL,\r\n\r\nI seem to be wrong here.  I do think it is a waste to not use the ability of OPAQUE to derive a secret, but key derivation is not a goal for SASL (oddly enough, it would be very useful).  Encryption is a different matter, but that is what RFC 4422 talks about.\r\n\r\nAlso, installing a security layer is not optional, it is done without further negotiation.  I did not know that, but it makes sense.  The installation of the security layer *is* specific to a protocol, which then looks at the SASL mech and installs the security layer if it is part of the mech.  But this still means that mechanisms are either/or.  You clearly choose to make OPAQUE not do encryption by default, so it would require a variant mechanism to add it.\r\n\r\nSo I drop my attempts to incorporate encryption into OPAQUE.",
           "createdAt": "2022-09-21T08:15:21Z",
           "updatedAt": "2022-09-21T08:20:07Z"
         },
         {
           "author": "vanrein",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "Something that *is* still missing is the ability of Channel Binding, that is, incorporating cryptographic information from the context into the mechanism as a seed.  You indicated that the mechanism did not support that, right?  Would it be an idea to incorporate the channel somehow into the userid?\r\n\r\nA variant that implements Channel Binding would have a `-PLUS` at the end of the name.",
           "createdAt": "2022-09-21T08:18:35Z",
           "updatedAt": "2022-09-21T08:18:35Z"
         },
         {
           "author": "vanrein",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "One concern for the Security Considerations would be whether it is Quantum Proof.  I suspect it is?\r\n\r\n  * the OPRF is blinded with a key pair, but does not need to publish that public key, so the password cannot be learnt from the wire transfer\r\n  * if the rest is like SRP, it will mix unshared entropy with a key exchange, and that too protects from Quantum Computing\r\n  * the only weak spot I could imagine is when the verifier is being shared (I'm using the SRP term)",
           "createdAt": "2022-09-22T07:52:47Z",
           "updatedAt": "2022-09-22T07:52:47Z"
@@ -181,10 +197,17 @@
         },
         {
           "author": "vanrein",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "> > Something that is still missing is the ability of Channel Binding, that is, incorporating cryptographic information from the context into the mechanism as a seed. You indicated that the mechanism did not support that, right? Would it be an idea to incorporate the channel somehow into the userid?\n> \n> nah, sadly that doesn't work, it would make the recovery of the credentials impossible.\n\nYes, of course.\n\n> we could however add the channel binding info to the hmac input that calculates the authentication token.\n\nThis is the HMAC that allows the client to check the server identity, right?\n\nThat'd be perfect.  The server must not be able to relay its traffic to a backend, say an IMAP server, and the use of channel binding makes that impossible, because the IMAP server either uses its own or none.\n\nUm, the reason for doing this is to avoid authenticating to the wrong party, so I am wondering if the HMAC is soon enough?  There is a 3rd message from client to server, that is the ultimate authentication step of the client to the server, right?\n\nThis is useful stuff for the Security Considerations :)\n\n> > One concern for the Security Considerations would be whether it is Quantum Proof. I suspect it is?\n> \n> nope, sadly this is still an area of research. but for authentication quantum proof is currently not a big issue.\n\nIT is *currently* not an issue, indeed.\n\n> >    the OPRF is blinded with a key pair, but does not need to publish that public key, so the password cannot be learnt from the wire transfer\n> \n> it's not really a key pair, it's just a scalar r and its modular inverse 1/r. both should be kept secret.\n\nAh.  Good enough of course, any reversable pad will do, given enough entropy.\n",
           "createdAt": "2022-09-26T07:38:43Z",
           "updatedAt": "2022-09-26T07:38:43Z"
+        },
+        {
+          "author": "stef",
+          "authorAssociation": "OWNER",
+          "body": "> >  nah, sadly that doesn't work, it would make the recovery of the credentials impossible.\r\n\r\n> Yes, of course.\r\n\r\nactually i'm wrong here, it seems this is totally possible\r\n",
+          "createdAt": "2022-10-12T21:46:05Z",
+          "updatedAt": "2022-10-12T21:46:05Z"
         }
       ],
       "reviews": []
