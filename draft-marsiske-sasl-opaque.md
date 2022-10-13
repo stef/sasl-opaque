@@ -39,7 +39,7 @@ informative:
     title: The Double Ratchet Algorithm
     target: https://signal.org/docs/specifications/doubleratchet/
   XCHACHA20:
-    title: XChaCha: eXtended-nonce ChaCha and AEAD_XChaCha20_Poly1305
+    title: "XChaCha: eXtended-nonce ChaCha and AEAD XChaCha20 Poly1305"
     target: https://datatracker.ietf.org/doc/draft-irtf-cfrg-xchacha/03/
 
 --- abstract
