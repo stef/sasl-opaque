@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-10-13T01:08:06.878138+00:00",
+  "timestamp": "2022-10-16T01:13:43.255578+00:00",
   "repo": "stef/sasl-opaque",
   "labels": [
     {
@@ -63,10 +63,10 @@
       "labels": [],
       "body": "- Mundane feedback, when asked I can ignore things too\r\n- This is basically textual + SASL feedback\r\n- Still need to study the Normative reference\r\n- Curious about the actual crypto",
       "createdAt": "2022-09-05T14:32:02Z",
-      "updatedAt": "2022-10-11T11:25:53Z",
+      "updatedAt": "2022-10-13T17:12:46Z",
       "baseRepository": "stef/sasl-opaque",
       "baseRefName": "main",
-      "baseRefOid": "3659ed8fbf6cccec1d547f7ae6aef89e948ab0b0",
+      "baseRefOid": "d97201c83048bf73d50875378194ab11f272f16d",
       "headRepository": "arpa2/sasl-opaque",
       "headRefName": "main",
       "headRefOid": "5ab4cc83ab866468cbfb6582ff944d20a6a572f7",
